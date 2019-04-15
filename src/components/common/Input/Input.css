@@ -1,0 +1,48 @@
+
+.container .alert {
+    border: medium none !important;
+    margin: 0 0 10px;
+    width: 100%;
+    padding: 0;
+}
+
+.container input {
+    width: 90%;
+    background-color: #ffffff;
+
+    font: 400 15px/16px "Roboto", Helvetica, Arial, sans-serif;
+
+    border: 1px solid #ccc;
+    background: #f8f8f9;
+    margin-top: 10px;
+    padding: 10px;
+
+}
+.alert input {
+    width: 90%;
+    background-color: #ffffff;
+
+    font: 400 15px/16px "Roboto", Helvetica, Arial, sans-serif;
+
+    border: 1px solid red;
+    background: #f8f8f9;
+    margin-top: 10px;
+    padding: 10px;
+
+}
+
+.container .alert input:hover {
+  -webkit-transition: border-color 0.3s ease-in-out;
+  -moz-transition: border-color 0.3s ease-in-out;
+  transition: border-color 0.3s ease-in-out;
+  border: 1px solid #aaa;
+}
+
+
+
+.container .alert input:focus {
+  outline: 0;
+  border: 1px solid rgb(58, 56, 56);
+}
+
+

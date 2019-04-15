@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  EC2Name:
+    Type: String
+    Default: SmartTest
+    Description: Name for ec2 instance
+
+Resources:
+  TestEC2:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: "ami-6869aa05"
+      NetworkInterfaces: 
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+      Tags: 
+        - Key: Name
+          Value: !Ref EC2Name
+
+Outputs:
+  TestEC2:
+    Description: EC2 instance public IP Address
+    Value: !GetAtt TestEC2.PublicIp
