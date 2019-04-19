@@ -32,18 +32,17 @@ class RegisterForm extends Component {
             password: { 
                 value: '', 
                 alert: false,
-                type: 'password',
+                type: 'text',
                 name: 'password',
                 placeholder: 'Password'
             },
-            rePassword: { 
+            password: { 
                 value: '', 
                 alert: false,
-                type: 'password',
-                name: 'rePassword',
-                placeholder: 'Confirm Password'
-            },
-            
+                type: 'text',
+                name: 'password',
+                placeholder: 'Password'
+            }
         }
         
     }
@@ -115,41 +114,40 @@ class RegisterForm extends Component {
 
 
     onSignOut = () => {
-        this.props.history.push({pathname: '/login'});
+        this.props.history.push({pathname: '/signin'});
         Auth.onSignOut();
     }
 
     onSubmit = () => {
-        console.log(this.state.inputElements);
-        // if (this.validateForm()) {
-        //     const { firstName, lastName, company, address, city, state, zipCode, email, phone } = this.state.inputElements;
+        if (this.validateForm()) {
+            const { firstName, lastName, company, address, city, state, zipCode, email, phone } = this.state.inputElements;
 
 
-        //     const body = {
-        //         Email: email.value,
-        //         FirstName: firstName.value,
-        //         LastName: lastName.value,
-        //         Company: company.value,
-        //         Address: address.value,
-        //         City: city.value,
-        //         State: state.value,
-        //         ZipCode: zipCode.value,
-        //         Phone: phone.value
-        //     }
+            const body = {
+                Email: email.value,
+                FirstName: firstName.value,
+                LastName: lastName.value,
+                Company: company.value,
+                Address: address.value,
+                City: city.value,
+                State: state.value,
+                ZipCode: zipCode.value,
+                Phone: phone.value
+            }
 
-        //     axios.post(Auth.APIUrl, body, {
-        //             headers: {
-        //                 'Authorization': Auth.getJwtToken()
-        //             }
-        //         })
-        //         .then(response => {
-        //             console.log('success');
-        //             console.log(response);
-        //         })
-        //         .catch(error => {
-        //             console.log(error);
-        //         });
-        // }  
+            axios.post(Auth.APIUrl, body, {
+                    headers: {
+                        'Authorization': Auth.getJwtToken()
+                    }
+                })
+                .then(response => {
+                    console.log('success');
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }  
     }
 
     render() {
@@ -175,9 +173,8 @@ class RegisterForm extends Component {
 
         return (
             <div className='form'>
-                <Button placeholder='Sign Out' onClick={this.onSignOut}/>
                 <FormGroup>
-                    <h2>Register</h2>
+                    <h2>Smart Registration</h2>
                     {form}
                     <Button placeholder='Register' onClick={this.onSubmit}/>
                 </FormGroup>

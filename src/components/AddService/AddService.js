@@ -9,14 +9,14 @@ class AddService extends Component {
                 value: '', 
                 type: 'text',
                 name: 'serviceId',
-                placeholder: 'Service Id:'
+                placeholder: 'Task Name:'
             },
             serviceType: { 
                 value: 'EC2', 
                 type: 'drop-down',
                 name: 'serviceType',
-                placeholder: 'Service Type:',
-                options: ['EC2', 'RDS', 'Redshift', 'Autoscaling Group', 'ECS cluster', 'Elastic Load Balancer']
+                placeholder: 'Class:',
+                options: ['Calculus 2', 'Computer Science 2', 'Communication', 'English Composition']
             },
             startTime: { 
                 value: '', 
@@ -76,11 +76,7 @@ class AddService extends Component {
     }
 
     onClick = () => {
-        console.log('Service Id:' + this.state.inputElements.serviceId.value);
-        console.log('Service Type:' + this.state.inputElements.serviceType.value);
-        console.log('Start Time:' + this.state.inputElements.startTime.value);
-        console.log('End Time:' + this.state.inputElements.endTime.value);
-
+        console.log(this.state.inputElements);
     }
 
     render() {
@@ -142,7 +138,7 @@ class AddService extends Component {
         return (
             <div className='service-form'>
                 <div className='service-form-group'>
-                    <h2>Add Service</h2>
+                    <h2>Add Task</h2>
                     {form}
                     <button className='service-submit' onClick={this.onClick}>Submit</button>
 

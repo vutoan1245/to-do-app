@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import SignIn from '../components/SignIn/SignIn';
-import Form from '../components/Form/RegisterForm';
+import Register from '../components/Form/RegisterForm';
 import NewPassword from '../components/NewPassword/NewPassword';
 import Header from '../components/Header/Header';
 import AddService from '../components/AddService/AddService';
+import Service from '../components/Services/Services';
 
 class App extends Component {
   state = {
@@ -18,11 +19,13 @@ class App extends Component {
         <div>
           <Header />
           <div>
-            <Route path="/signin" exact component={SignIn}/>
-            <Route path="/newPassword" exact component={NewPassword}/>
-            <Route path="/form" exact  component={Form}/>
-            <Route path="/addservice" exact component={AddService} />
-            <Route path="/" exact  component={SignIn}/>
+            <Switch>
+              <Route path="/login" exact component={SignIn}/>
+              <Route path="/newPassword" exact component={NewPassword}/>
+              <Route path="/register" exact  component={Register}/>
+              <Route path="/addtask" exact component={AddService} />
+              <Route path="/"  component={Service}/>
+            </Switch>
           </div>
         </div>
 

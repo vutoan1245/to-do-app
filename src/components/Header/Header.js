@@ -9,7 +9,7 @@ const Header = () => {
                     <h1><Link to="/">LOGO</Link></h1>
 
                     <nav>
-                        <Link to="/AddService">Add Service</Link>
+                        <Link to="/addtask">Add Task</Link>
                         {/* <Link to="/Services">Services</Link> */}
                     </nav>
 

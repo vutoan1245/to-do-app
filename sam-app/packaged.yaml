@@ -1,0 +1,186 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: A simple backend with a rest API, Lambda, dynamoDB, and Cognito
+Globals:
+  Api:
+    Cors:
+      AllowHeaders: '''*'''
+      AllowMethods: '''*'''
+      AllowOrigin: '''*'''
+Outputs:
+  ApiUrl:
+    Description: URL of your API endpoint
+    Value:
+      Fn::Join:
+      - ''
+      - - https://
+        - Ref: SmartAPI
+        - .execute-api.
+        - Ref: AWS::Region
+        - .amazonaws.com/dev
+  ClientId:
+    Description: Cognito User Pool ClientId
+    Value:
+      Ref: CognitoUserPoolClient
+  UserPoolId:
+    Description: Cognito User Pool
+    Value:
+      Ref: CognitoUserPool
+Parameters:
+  DynamoDBTableName:
+    Default: smart-database
+    Description: Name for DynamoDB table
+    Type: String
+  Email:
+    Default: vutoan1245@gmail.com
+    Description: Username for front-end
+    Type: String
+Resources:
+  CognitoIdPool:
+    Properties:
+      AllowUnauthenticatedIdentities: false
+      CognitoIdentityProviders:
+      - ClientId:
+          Ref: CognitoUserPoolClient
+        ProviderName:
+          Fn::GetAtt:
+          - CognitoUserPool
+          - ProviderName
+      IdentityPoolName: SmartUsersId
+    Type: AWS::Cognito::IdentityPool
+  CognitoUser:
+    Properties:
+      UserAttributes:
+      - Name: email
+        Value:
+          Ref: Email
+      UserPoolId:
+        Ref: CognitoUserPool
+      Username:
+        Ref: Email
+    Type: AWS::Cognito::UserPoolUser
+  CognitoUserPool:
+    Properties:
+      AutoVerifiedAttributes:
+      - email
+      Schema:
+      - AttributeDataType: String
+        Name: email
+        Required: true
+      UserPoolName: SmartRegistrationUsers
+    Type: AWS::Cognito::UserPool
+  CognitoUserPoolClient:
+    Properties:
+      ClientName: SmartRegistration
+      GenerateSecret: false
+      UserPoolId:
+        Ref: CognitoUserPool
+      WriteAttributes:
+      - email
+    Type: AWS::Cognito::UserPoolClient
+  SmartAPI:
+    Properties:
+      DefinitionBody:
+        basePath: /prod
+        definitions:
+          Empty:
+            title: Empty Schema
+            type: object
+        info:
+          title: SmartAPI
+          version: '2017-08-17T22:53:59Z'
+        paths:
+          /:
+            post:
+              produces:
+              - application/json
+              responses:
+                '200':
+                  description: 200 response
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: string
+                  schema:
+                    $ref: '#/definitions/Empty'
+              security:
+              - SmartAPI: []
+              x-amazon-apigateway-integration:
+                contentHandling: CONVERT_TO_TEXT
+                httpMethod: POST
+                passthroughBehavior: when_no_match
+                responses:
+                  default:
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Origin: '''*'''
+                    statusCode: '200'
+                type: aws_proxy
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SmartLambda.Arn}/invocations
+        schemes:
+        - https
+        securityDefinitions:
+          SmartAPI:
+            in: header
+            name: Authorization
+            type: apiKey
+            x-amazon-apigateway-authorizer:
+              providerARNs:
+              - Fn::Sub: ${CognitoUserPool.Arn}
+              type: cognito_user_pools
+            x-amazon-apigateway-authtype: cognito_user_pools
+        swagger: '2.0'
+      StageName: dev
+    Type: AWS::Serverless::Api
+  SmartLambda:
+    Properties:
+      CodeUri: s3://sam-test-bucket-for-smart/c01125e7c3390583858052411f9d04ea
+      Description: A simple backend with a RESTful API endpoint using Amazon API Gateway.
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: Table
+      Events:
+        SmartAPI:
+          Properties:
+            Method: POST
+            Path: /
+            RestApiId:
+              Ref: SmartAPI
+          Type: Api
+      Handler: app.handler
+      MemorySize: 512
+      Policies:
+      - Statement:
+        - Action:
+          - dynamodb:DeleteItem
+          - dynamodb:GetItem
+          - dynamodb:PutItem
+          - dynamodb:UpdateItem
+          Effect: Allow
+          Resource:
+            Fn::Join:
+            - ''
+            - - 'arn:aws:dynamodb:'
+              - Ref: AWS::Region
+              - ':'
+              - Ref: AWS::AccountId
+              - :table/
+              - Ref: DynamoDBTableName
+        Version: '2012-10-17'
+      Runtime: nodejs8.10
+      Timeout: 10
+    Type: AWS::Serverless::Function
+  Table:
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: Email
+        AttributeType: S
+      KeySchema:
+      - AttributeName: Email
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      TableName:
+        Ref: DynamoDBTableName
+    Type: AWS::DynamoDB::Table
+Transform: AWS::Serverless-2016-10-31

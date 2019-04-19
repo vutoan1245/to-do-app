@@ -5,15 +5,15 @@ import './Services.css';
 class Services extends Component {
     state = {
         services: [{
-            serviceId: 'P00',
-            serviceType: 'EC2',
+            serviceId: 'Test',
+            serviceType: 'Calculus 2',
+            startTime: '5:00 AM',
+            endTime: '6:00 PM'
+        }, {
+            serviceId: 'Essay',
+            serviceType: 'English Composition',
             startTime: '9:00 AM',
             endTime: '11:00 PM'
-        }, {
-            serviceId: 'P01',
-            serviceType: 'RDS',
-            startTime: '3:00 AM',
-            endTime: '5:00 PM'
         }],
         search: {
             value: '',
@@ -23,7 +23,6 @@ class Services extends Component {
     };
 
     componentDidMount = () => {
-        // Put API here
     }
 
     onInputChange = (e) => {
@@ -134,8 +133,8 @@ class Services extends Component {
                 <table className="service-table">
                     <thead>
                         <tr>
-                            <th>Service Id</th>
-                            <th>Service Type</th>
+                            <th>Task</th>
+                            <th>Class</th>
                             <th>Start Time</th>
                             <th>End Time</th>
                             <th></th>
