@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import SignIn from '../components/SignIn/SignIn';
-import Register from '../components/Form/RegisterForm';
+import Register from '../components/Register/RegisterForm';
 import NewPassword from '../components/NewPassword/NewPassword';
 import Header from '../components/Header/Header';
 import AddService from '../components/AddService/AddService';

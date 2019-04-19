@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Input, Button, FormGroup } from '../common';
-import * as Auth from '../Auth';
 import './NewPassword.css'
 
 class SignIn extends Component {
@@ -38,9 +37,7 @@ class SignIn extends Component {
     }
 
     componentDidMount = () => {
-        if (Auth.isAuthenticated()) {
-            this.props.history.push({pathname: '/form'});
-        }
+
     }
 
 
@@ -99,8 +96,7 @@ class SignIn extends Component {
     onClick = ()  => {
 
         if (this.validateForm()) {
-            const { username, oldPassword, newPassword } = this.state.inputElements;
-            Auth.newPassword(username.value, oldPassword.value, newPassword.value, this.props.history);
+            // do stuff
         }
         
     }

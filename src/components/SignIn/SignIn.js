@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 import { Input, Button, FormGroup } from '../common';
 import * as Auth from '../Auth';
 import './SignIn.css'
@@ -102,13 +104,14 @@ class SignIn extends Component {
         );
         return (
             <div className='form'>
-                <FormGroup>
-
-                    <h2>Sign in</h2>
-                    {form}
-
-                    <Button placeholder='Sign in' onClick={this.onSignIn}/>
-                </FormGroup>
+                <div className='service-form-group'>
+                    <FormGroup>
+                        <h2>Login</h2>
+                        {form}
+                        <Button placeholder='Sign in' onClick={this.onSignIn}/>
+                        <p>Dont't have an account. <Link to="/register">Register</Link></p>
+                    </FormGroup>
+                </div>
             </div>
         )
     }

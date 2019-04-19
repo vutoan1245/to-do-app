@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 import { FormGroup, Input, Button } from '../common';
 import * as Auth from '../Auth';
 import './RegisterForm.css';
@@ -36,12 +38,12 @@ class RegisterForm extends Component {
                 name: 'password',
                 placeholder: 'Password'
             },
-            password: { 
+            rePassword: { 
                 value: '', 
                 alert: false,
                 type: 'text',
-                name: 'password',
-                placeholder: 'Password'
+                name: 'rePassword',
+                placeholder: 'Confirm Password'
             }
         }
         
@@ -172,13 +174,17 @@ class RegisterForm extends Component {
         );
 
         return (
-            <div className='form'>
-                <FormGroup>
-                    <h2>Smart Registration</h2>
-                    {form}
-                    <Button placeholder='Register' onClick={this.onSubmit}/>
-                </FormGroup>
+            <div className="form"> 
+                <div className='service-form-group'>
+                    <FormGroup>
+                        <h2>Smart Registration</h2>
+                        {form}
+                        <Button placeholder='Register' onClick={this.onSubmit}/>
+                        <p>Already have an account? <Link to="/login">Login</Link></p>
+                    </FormGroup>
+                </div>
             </div>
+
         );
     };
 }
